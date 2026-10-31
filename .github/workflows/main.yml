@@ -1,0 +1,24 @@
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - run: |
+          docker run --privileged -v /dev:/dev -v "$PWD:/w" -w /w ghcr.io/void-linux/void-glibc-full sh -ec '
+            xbps-install -Syu xbps
+            xbps-install -y bash git lzo e2fsprogs dosfstools
+            git clone https://github.com/void-linux/void-mklive
+            cd void-mklive
+            mkdir -p includedir/root
+            cp ../install.sh includedir/root/
+            ./mklive.sh -p zfs -I includedir -S dhcpcd'
+          gh release list --json tagName -q '.[].tagName' | xargs -rn1 gh release delete -y --cleanup-tag
+          gh release create "$(date -u +%Y%m%d)" void-mklive/*.iso
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
