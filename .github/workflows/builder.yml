@@ -20,7 +20,7 @@ jobs:
             cd void-mklive
             mkdir -p includedir/root
             cp ../install.sh includedir/root/
-            ./mklive.sh -p zfs -I includedir -S dhcpcd
+            ./mklive.sh -p zfs -I includedir -S "dhcpcd wpa_supplicant"
             for iso in *.iso; do sha256sum "$iso" >"$iso.sha256"; done
             for pkg in glibc zfs; do
               v=$(xbps-uhelper binpkgver xbps-cachedir-x86_64/"$pkg"-[0-9]*.xbps)

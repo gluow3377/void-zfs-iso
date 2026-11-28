@@ -50,7 +50,7 @@ cp /var/db/xbps/keys/* /mnt/var/db/xbps/keys/
 
 XBPS_ARCH=x86_64 xbps-install \
   -S -y -R https://repo-fi.voidlinux.org/current \
-  -r /mnt apparmor audit base-system cronie chrony curl efibootmgr elogind fish-shell git neovim NetworkManager opendoas runit-nftables socklog-void wget zramen
+  -r /mnt apparmor audit base-system cronie chrony curl efibootmgr elogind fish-shell git neovim NetworkManager opendoas runit-nftables socklog-void wget wpa_supplicant zramen
 
 cp /etc/hostid /mnt/etc
 mkdir /mnt/etc/zfs
